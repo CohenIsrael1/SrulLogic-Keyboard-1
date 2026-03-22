@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>SrulLogic Elite | מקלדת הפוכה המהירה בישראל</title>
+    <meta name="description" content="הכלי המקצועי ביותר לתיקון מקלדת הפוכה. המרת טקסט מאנגלית לעברית ומעברית לאנגלית בלחיצה.">
+    <meta name="keywords" content="מקלדת הפוכה, הפוך מקלדת, עברית אנגלית, srullogic, תיקון טקסט">
+    <meta name="author" content="SrulLogic Systems">
+
+    <style>
+        :root { 
+            --primary: #0062ff; 
+            --primary-light: #e7f3ff;
+            --bg: #f0f2f5; 
+            --card: #ffffff;
+            --text: #1c1e21;
+        }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text);
+            margin: 0; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            min-height: 100vh; 
+        }
+
+        /* תפריט ניווט עליון */
+        nav {
+            width: 100%;
+            background: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .nav-link.active { background: var(--primary-light); color: var(--primary); }
+        .nav-link:hover { background: #f0f2f5; }
+
+        .card { 
+            background: var(--card); 
+            padding: 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 12px 28px rgba(0,0,0,0.1); 
+            width: 90%; 
+            max-width: 420px; 
+            text-align: center; 
+        }
+
+        /* מקום קבוע ללוגו למניעת קפיצות */
+        .logo-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: #fff;
+            border-radius: 18px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .logo-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 { margin: 0 0 5px; font-size: 1.8rem; color: var(--primary); }
+        .brand-sub { font-size: 0.8rem; color: #65676b; margin-bottom: 20px; font-weight: bold; }
+
+        /* תיקון כפתורי המצבים */
+        .mode-container { display: flex; background: #eee; padding: 4px; border-radius: 12px; margin-bottom: 15px; }
+        .m-btn { 
+            flex: 1; padding: 10px; border: none; background: none; 
+            cursor: pointer; font-weight: bold; border-radius: 10px; transition: 0.3s;
+        }
+        .m-btn.active { background: var(--primary); color: white; }
+
+        /* מצב ידני - בחירת כיוון */
+        #manual-options { display: none; gap: 8px; margin-bottom: 15px; }
+        .dir-btn { flex: 1; padding: 8px; border: 2px solid #ddd; border-radius: 10px; background: white; cursor: pointer; font-size: 0.85rem; }
+        .dir-btn.active { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+        textarea { 
+            width: 100%; height: 90px; border-radius: 14px; border: 1px solid #ddd; 
+            padding: 12px; box-sizing: border-box; resize: none; font-size: 1rem; 
+            margin-bottom: 10px; outline: none; transition: 0.2s;
+        }
+        textarea:focus { border-color: var(--primary); background: #fafafa; }
+
+        /* גריד כפתורים */
+        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn { 
+            padding: 12px; border: none; border-radius: 12px; cursor: pointer; 
+            font-weight: bold; color: white; font-size: 0.95rem; transition: 0.2s; 
+        }
+        .btn-copy { background: #10b981; grid-column: span 2; }
+        .btn-wa { background: #25d366; }
+        .btn-clear { background: #f02849; }
+        .btn-share { background: #6366f1; }
+        .btn-refresh { background: #9ca3af; }
+        .btn:hover { opacity: 0.9; transform: scale(0.98); }
+
+        .footer { margin-top: 25px; font-size: 0.75rem; color: #8a8d91; border-top: 1px solid #eee; padding-top: 15px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" class="nav-link active">דף ראשי</a>
+    <a href="https://github.com/cohenisrael1?tab=repositories" target="_blank" class="nav-link">כל הפרויקטים</a>
+</nav>
+
+<div class="card">
+    <div class="logo-wrapper">
+        <img src="logo.png" alt="S" onerror="this.src='https://via.placeholder.com/80?text=SrulLogic'">
+    </div>
+    
+    <h1>Keyboard Elite</h1>
+    <div class="brand-sub">SRULLOGIC SYSTEMS</div>
+
+    <div class="mode-container">
+        <button class="m-btn active" id="btn-auto" onclick="setMode('auto')">אוטומטי</button>
+        <button class="m-btn" id="btn-manual" onclick="setMode('manual')">ידני</button>
+    </div>
+
+    <div id="manual-options">
+        <button class="dir-btn active" id="toHe" onclick="setDir('toHe')">En ➔ עברית</button>
+        <button class="dir-btn" id="toEn" onclick="setDir('toEn')">עברית ➔ En</button>
+    </div>
+
+    <textarea id="input" placeholder="הקלידו כאן טקסט הפוך..."></textarea>
+    <textarea id="output" readonly placeholder="התוצאה תופיע כאן..."></textarea>
+
+    <div class="actions">
+        <button class="btn btn-copy" onclick="copy()">📋 העתק תוצאה</button>
+        <button class="btn btn-wa" onclick="whatsapp()">WhatsApp</button>
+        <button class="btn btn-clear" onclick="clearAll()">נקה</button>
+        <button class="btn btn-share" onclick="share()">שתף 🔗</button>
+        <button class="btn btn-refresh" onclick="location.reload()">רענן 🔄</button>
+    </div>
+
+    <div class="footer">
+        © 2026 SrulLogic Systems | פתרון מקצועי למקלדת הפוכה
+    </div>
+</div>
+
+<script>
+    const dictionary = {'q':'/','w':'\'','e':'ק','r':'ר','t':'א','y':'ט','u':'ו','i':'ן','o':'ם','p':'פ','a':'ש','s':'ד','d':'ג','f':'כ','g':'ע','h':'י','j':'ח','k':'ל','l':'ך',';':'ף','\'':',','z':'ז','x':'ס','c':'ב','v':'ה','b':'נ','n':'מ','m':'צ',',':'ת','.':'ץ','/':'.','ק':'e','ר':'r','א':'t','ט':'y','ו':'u','ן':'i','ם':'o','פ':'p','ש':'a','ד':'s','ג':'d','כ':'f','ע':'g','י':'h','ח':'j','ל':'k','ך':'l','ף':';',',':'\'','ז':'z','ס':'x','ב':'c','ה':'v','נ':'b','מ':'n','צ':'m','ת':',','ץ':'.','.':'/'};
+    
+    let currentMode = 'auto';
+    let currentDir = 'toHe';
+    const inp = document.getElementById('input');
+    const out = document.getElementById('output');
+
+    inp.addEventListener('input', translate);
+
+    function translate() {
+        const text = inp.value;
+        if (currentMode === 'auto') {
+            out.value = text.split('').map(c => dictionary[c.toLowerCase()] || c).join('');
+        } else {
+            // במצב ידני אפשר להוסיף לוגיקה ספציפית לכיוון אם רוצים, כרגע המילוי דו-צדדי
+            out.value = text.split('').map(c => dictionary[c.toLowerCase()] || c).join('');
+        }
+    }
+
+    function setMode(m) {
+        currentMode = m;
+        document.getElementById('btn-auto').classList.toggle('active', m === 'auto');
+        document.getElementById('btn-manual').classList.toggle('active', m === 'manual');
+        document.getElementById('manual-options').style.display = (m === 'manual') ? 'flex' : 'none';
+        translate();
+    }
+
+    function setDir(d) {
+        currentDir = d;
+        document.getElementById('toHe').classList.toggle('active', d === 'toHe');
+        document.getElementById('toEn').classList.toggle('active', d === 'toEn');
+        translate();
+    }
+
+    function copy() {
+        if(!out.value) return;
+        navigator.clipboard.writeText(out.value);
+        alert("הטקסט הועתק בהצלחה! ✅");
+    }
+
+    function clearAll() { inp.value = ''; out.value = ''; }
+    
+    function whatsapp() {
+        if(out.value) window.open(`https://wa.me/?text=${encodeURIComponent(out.value)}`);
+    }
+
+    function share() {
+        if (navigator.share && out.value) {
+            navigator.share({ title: 'SrulLogic תיקון טקסט', text: out.value });
+        } else if(out.value) {
+            copy();
+        }
+    }
+</script>
+
+</body>
+</html>
