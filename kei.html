@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SrulLogic | Keyboard Elite</title>
+    <style>
+        :root { --p: #0062ff; --bg: #f4f7f6; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 90%; max-width: 400px; text-align: center; }
+        .logo-box { width: 80px; height: 80px; margin: 0 auto 15px; border-radius: 15px; border: 1px solid #eee; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+        h1 { color: var(--p); margin: 0 0 5px; font-size: 1.8rem; }
+        .sub { font-size: 0.8rem; color: #777; margin-bottom: 20px; }
+        .tabs { display: flex; background: #eee; padding: 4px; border-radius: 10px; margin-bottom: 15px; position: relative; }
+        .tab { flex: 1; padding: 10px; border: none; background: none; cursor: pointer; font-weight: bold; border-radius: 8px; z-index: 2; transition: 0.3s; }
+        .tab.active { color: white; background: var(--p); }
+        textarea { width: 100%; height: 80px; margin-bottom: 10px; border-radius: 12px; border: 1px solid #ddd; padding: 12px; box-sizing: border-box; resize: none; font-size: 1rem; outline: none; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button.action { padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .copy { background: #10b981; grid-column: span 2; }
+        .clear { background: #ef4444; }
+        .wa { background: #25d366; }
+        .share { background: #6366f1; }
+        .refresh { background: #9ca3af; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo-box">
+            <img src="logo.png" alt="S" onerror="this.src='https://via.placeholder.com/80?text=S'">
+        </div>
+        <h1>SrulLogic</h1>
+        <p class="sub">Keyboard Elite ⚡</p>
+        
+        <div class="tabs">
+            <button class="tab active" id="b-auto" onclick="setMode('auto')">אוטומטי</button>
+            <button class="tab" id="b-manual" onclick="setMode('manual')">ידני</button>
+        </div>
+
+        <textarea id="i" placeholder="הקלד כאן טקסט הפוך..."></textarea>
+        <textarea id="o" readonly placeholder="התוצאה תופיע כאן..."></textarea>
+        
+        <div class="btn-grid">
+            <button class="action copy" onclick="cp()">📋 העתק תוצאה</button>
+            <button class="action clear" onclick="cl()">נקה</button>
+            <button class="action wa" onclick="wa()">WhatsApp</button>
+            <button class="action share" onclick="sh()">🔗 שתף</button>
+            <button class="action refresh" onclick="rf()">🔄 רענן</button>
+        </div>
+    </div>
+
+    <script>
+        const m = {'q':'/','w':'\'','e':'ק','r':'ר','t':'א','y':'ט','u':'ו','i':'ן','o':'ם','p':'פ','a':'ש','s':'ד','d':'ג','f':'כ','g':'ע','h':'י','j':'ח','k':'ל','l':'ך',';':'ף','\'':',','z':'ז','x':'ס','c':'ב','v':'ה','b':'נ','n':'מ','m':'צ',',':'ת','.':'ץ','/':'.','ק':'e','ר':'r','א':'t','ט':'y','ו':'u','ן':'i','ם':'o','פ':'p','ש':'a','ד':'s','ג':'d','כ':'f','ע':'g','י':'h','ח':'j','ל':'k','ך':'l','ף':';',',':'\'','ז':'z','ס':'x','ב':'c','ה':'v','נ':'b','מ':'n','צ':'m','ת':',','ץ':'.','.':'/'};
+        const inp = document.getElementById('i'), out = document.getElementById('o');
+        
+        inp.oninput = () => out.value = inp.value.split('').map(c => m[c.toLowerCase()] || c).join('');
+
+        function setMode(v) {
+            document.getElementById('b-auto').classList.toggle('active', v === 'auto');
+            document.getElementById('b-manual').classList.toggle('active', v === 'manual');
+        }
+
+        function cp() { if(out.value) { navigator.clipboard.writeText(out.value); alert("הועתק! ✅"); } }
+        function cl() { inp.value = out.value = ''; }
+        function rf() { location.reload(); }
+        function wa() { if(out.value) window.open(`https://wa.me/?text=${encodeURIComponent(out.value)}`); }
+        function sh() { if(navigator.share && out.value) { navigator.share({ text: out.value }); } else if(out.value) { cp(); alert("הטקסט הועתק לשיתוף!"); } }
+    </script>
+</body>
+</html>
